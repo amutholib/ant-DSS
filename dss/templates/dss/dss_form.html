@@ -1,0 +1,20 @@
+{% extends 'deeses.html' %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_bus_type" class="form-label">Bus Type</label>
+            {{ form.bus_type }}
+        </div>
+        <div class="mb-3">
+            <label for="id_orbit_type" class="form-label">Orbit Type</label>
+            {{ form.orbit_type }}
+        </div>
+        <div class="mb-3">
+            <label for="id_mission" class="form-label">Mission</label>
+            {{ form.mission }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

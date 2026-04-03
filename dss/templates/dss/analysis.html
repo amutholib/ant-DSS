@@ -1,0 +1,260 @@
+{% include "./header.html" %}
+{% include "./topnav.html" %}
+{% include "./leftnav.html" %}
+{% load static %}
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+  </symbol>
+  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+  </symbol>
+</svg>
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Analysis</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+        <li class="breadcrumb-item active">Analysis</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-tasks me-1"></i>
+            Analysis Form
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'analysis' %}">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <label for="id_bus_type" class="col-sm-2 col-form-label">Bus Type</label>
+                    <div class="col-md-10 ms-auto">
+                        <input type="search" id="bustype" name="bustype" class="form-control" placeholder="Type a bus type" value="{{ bustype }}">
+                        
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="id_orbit_type" class="col-sm-2 col-form-label">Orbit Type</label>
+                    <div class="col-md-10 ms-auto">
+                        <select class="form-select" name="orbitcategory">
+                          <option value="">Select Orbit Type</option>
+                          <option value="Elliptical" 
+                          {% if orbitcategory == "Elliptical" %} selected="selected"{% endif %}>Elliptical</option>
+                          <option value="GEO-GSO"
+                          {% if orbitcategory == "GEO-GSO" %} selected="selected"{% endif %}>GEO-GSO</option>
+                          <option value="GTO"
+                          {% if orbitcategory == "GTO" %} selected="selected"{% endif %}>GTO</option>
+                          <option value="HEO"
+                          {% if orbitcategory == "HEO" %} selected="selected"{% endif %}>HEO</option>
+                          <option value="Interplanetary"
+                          {% if orbitcategory == "Interplanetary" %} selected="selected"{% endif %}>Interplanetary</option>
+                          <option value="LEO"
+                          {% if orbitcategory == "LEO" %} selected="selected"{% endif %}>LEO</option>
+                          <option value="Lagrangian"
+                          {% if orbitcategory == "Lagrangian" %} selected="selected"{% endif %}>Lagrangian</option>
+                          <option value="MEO"
+                          {% if orbitcategory == "MEO" %} selected="selected"{% endif %}>MEO</option>
+                          <option value="Suborbital"
+                          {% if orbitcategory == "Suborbital" %} selected="selected"{% endif %}>Suborbital</option>
+                          <option value="Translunar" 
+                          {% if orbitcategory == "Translunar" %} selected="selected"{% endif %}>Translunar</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="id_mission" class="col-sm-2 col-form-label">Mission Primary</label>
+                    <div class="col-md-10 ms-auto">
+                        <input type="search" id="missionprimary" name="missionprimary" class="form-control" placeholder="Type a mission primary" value="{{ missionprimary }}">
+                        
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="id_orbit_type" class="col-sm-2 col-form-label">Generative AI Options</label>
+                    <div class="col-md-10 ms-auto">
+                        <select class="form-select" name="genai">
+                          <option value="">Select Generative AI Models</option>
+                          <option value="MetaAI" 
+                          {% if genai == "MetaAI" %} selected="selected"{% endif %}>Meta: Llama 4 Maverick</option>
+                          <option value="NVIDIA"
+                          {% if genai == "NVIDIA" %} selected="selected"{% endif %}>NVIDIA: Nemotron Nano v2</option>
+                          <option value="Gemini"
+                          {% if genai == "Gemini" %} selected="selected"{% endif %}>Google: Gemma 3</option>
+                          <option value="Mistral"
+                          {% if genai == "Mistral" %} selected="selected"{% endif %}>Mistral: Devstral Small </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-10 ms-auto">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if results %}
+        {% if bustype and orbitcategory or bustype and missionprimary or orbitcategory and missionprimary %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-tasks me-1"></i>
+                    Result {{ results|length }}
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Satellite Name</th>
+                                <th>Manufacturer</th>
+                                <th>Owner</th>
+                                <th>Bus Type</th>
+                                <th>Orbit Category</th>
+                                <th>Mission Primary</th>
+                                <!-- Add other columns as needed -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                                <tr>
+                                    <td>{{ result.spacecraftname }}</td>
+                                    <td>{{ result.primemanufacturer }}</td>
+                                    <td>{{ result.spacecraftowner }}</td>
+                                    <td>{{ result.bustype }}</td>
+                                    <td>{{ result.orbitcategory }}</td>
+                                    <td>{{ result.missionprimary }}</td>
+                                    <!-- Add other columns as needed -->
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <b>Analysis</b> 
+                <a href="/pdf?bustype={{ bustype }}&orbitcategory={{ orbitcategory }}&missionprimary={{ missionprimary }}">
+                <img align="right" width="32" length="32" alt="Download PDF" src="{% static 'assets/img/pdf6.png' %}"></a>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-tasks me-1"></i>
+                <b>Incident Overview</b>
+            </div>
+            <div class="card-body">
+                <div id="genairesponse">
+                    {{ overview|safe }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-tasks me-1"></i>
+                <b>Reliability Trend and Insight</b>
+            </div>
+            <div class="card-body">
+                <div id="genairesponse">
+                    {{ insight|safe }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-tasks me-1"></i>
+                <b>Stakeholder Recommendation</b>
+            </div>
+            <div class="card-body">
+                <div id="genairesponse">
+                    {{ recommendation|safe }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-tasks me-1"></i>
+                <b>Summary</b>
+            </div>
+            <div class="card-body">
+                <div id="genairesponse">
+                    {{ summary|safe }}
+                </div>
+            </div>
+        </div> 
+
+
+        {% else %}
+            
+            <div id="inputError" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                Please enter at least two criteria!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </div>
+        {% endif %}    
+    {% else  %}
+        {% if bustype or orbitcategory or missionprimary %}
+            
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                The data for the criteria you entered is not found!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+           
+        {% endif %}
+    {% endif %}
+
+
+<script type="text/javascript">
+    $(function() {
+        $("#bustype").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{% url 'autocomplete_bustype' %}",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 2,
+            open: function() {
+                var autocomplete = $(".ui-autocomplete");
+                var inputWidth = $("#bustype").outerWidth();
+                autocomplete.css("width", inputWidth + "px");
+            }
+        });
+
+        $("#missionprimary").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{% url 'autocomplete_missionprimary' %}",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 2,
+            open: function() {
+                var autocomplete = $(".ui-autocomplete");
+                var inputWidth = $("#missionprimary").outerWidth();
+                autocomplete.css("width", inputWidth + "px");
+            }
+        });
+
+    });
+
+
+</script>
+
+{% include "./footer.html" %}                    
+                

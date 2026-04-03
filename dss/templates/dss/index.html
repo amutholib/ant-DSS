@@ -1,0 +1,403 @@
+{% include "./header.html" %}
+{% include "./topnav.html" %}
+{% include "./leftnav.html" %}
+{% load static %}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Dashboard</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+    <div class="row">
+        <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Altitude Failures</h5>
+                <h2 class="card-body" align="center">{{ total_altitude }}</h2>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Beam Failures</h5>
+                <h2 class="card-body" align="center">{{ total_beam }}</h2>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Control Failures</h5>
+                <h2 class="card-body" align="center">{{ total_control }}</h2>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Docking Failures</h5>
+                <h2 class="card-body" align="center">{{ total_docking }}</h2>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Mechanisms Failures</h5>
+                <h2 class="card-body" align="center">{{ total_mechanism }}</h2>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Payload Failures</h5>
+                <h2 class="card-body" align="center">{{ total_payload }}</h2>
+            </div>
+        </div>
+       <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Battery Failures</h5>
+                <h2 class="card-body" align="center">{{ total_battery }}</h2>
+            </div>
+        </div>
+       <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Electrical Failures</h5>
+                <h2 class="card-body" align="center">{{ total_electrical }}</h2>
+            </div>
+        </div>
+       <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Solar Failures</h5>
+                <h2 class="card-body" align="center">{{ total_solar }}</h2>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Telemetry Failures</h5>
+                <h2 class="card-body" align="center">{{ total_telemetry }}</h2>
+            </div>
+        </div>
+       <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Transponder Failures</h5>
+                <h2 class="card-body" align="center">{{ total_transponder }}</h2>
+            </div>
+        </div>
+       <div class="col-xl-2 col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <h5 class="card-title" align="center">Unknown Failures</h5>
+                <h2 class="card-body" align="center">{{ total_unknown }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                    Failures per Year
+                </div>
+                <div class="card-body">
+                    <canvas id="anomaliesChart" width="100%" height="40"></canvas>
+
+                    <!--<canvas id="myAreaChart" width="100%" height="40"></canvas>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                    Failures per Mission
+                </div>
+                <div class="card-body">
+                    <canvas id="missionChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Failures by Event
+                </div>
+                <div class="card-body">
+                    <canvas id="anomaliesEventBarChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Failures by Orbit
+                </div>
+                <div class="card-body">
+                    <canvas id="anomaliesBarChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Design Life Average by Orbit
+                </div>
+                <div class="card-body">
+                    <canvas id="avgDesignBarChart" width="100%" height="40"></canvas>
+
+                    <!--<canvas id="myAreaChart" width="100%" height="40"></canvas>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Age Average by Orbit
+                </div>
+                <div class="card-body">
+                    <canvas id="avgAgeBarChart" width="100%" height="40"></canvas>
+                    <!--<canvas id="myBarChart" width="100%" height="40"></canvas>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Top 10 Most Failures by Manufactures
+                </div>
+                <div class="card-body">
+                    <table id="datatableManufacture" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Prime Manufactures</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for anomaly in anomalies_by_manufacturer %}
+                                <tr>
+                                    <td>{{ anomaly.primemanufacturer }}</td>
+                                    <td>{{ anomaly.total }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Top 10 Most Failures by Operators
+                </div>
+                <div class="card-body">
+                    <!--<table class="table table-striped operatorTable" style="width:100%">-->
+                    <table id="operatorTable" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Operators</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for anomaly in anomalies_by_operator %}
+                                <tr>
+                                    <td>{{ anomaly.spacecraftoperator }}</td>
+                                    <td>{{ anomaly.total }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var ctx = document.getElementById('anomaliesChart').getContext('2d');
+                var anomaliesData = {{ anomalies_by_year|safe }};
+                var labels = anomaliesData.map(function(item) { return item.year; });
+                var data = anomaliesData.map(function(item) { return item.total; });
+
+                var chart = new Chart(ctx, {
+                    type: 'line',  // Use 'line' for area chart
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Total Failures',
+                            data: data,
+                            fill: true,  // Fill the area under the line
+                            backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                            borderColor: 'rgba(0, 0, 255, 1)',
+                            //backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            //borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var ctxM = document.getElementById('missionChart').getContext('2d');
+                var anomaliesDataM = {{ anomalies_by_mission|safe }};
+                var labelsM = anomaliesDataM.map(function(item) { return item.mission; });
+                var dataM = anomaliesDataM.map(function(item) { return item.total; });
+
+                var chart = new Chart(ctxM, {
+                    type: 'line',  // Use 'line' for area chart
+                    data: {
+                        labels: labelsM,
+                        datasets: [{
+                            label: 'Total Failures',
+                            data: dataM,
+                            fill: true,  // Fill the area under the line
+                            backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                            borderColor: 'rgba(0, 0, 255, 1)',
+                            //backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            //borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var ctxE = document.getElementById('anomaliesEventBarChart').getContext('2d');
+                var anomaliesDataE = {{ anomalies_by_event|safe }};
+                var labelsE = anomaliesDataE.map(function(item) { return item.first_word; });
+                var dataE = anomaliesDataE.map(function(item) { return item.total; });
+
+                var fail_event_chart = new Chart(ctxE, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsE,
+                        datasets: [{
+                            label: 'Total Failures',
+                            data: dataE,
+                            //backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                            //borderColor: 'rgba(0, 0, 255, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+           });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var ctx = document.getElementById('anomaliesBarChart').getContext('2d');
+                var anomaliesData = {{ anomalies_by_orbit|safe }};
+                var labels = anomaliesData.map(function(item) { return item.orbitcategory; });
+                var datao = anomaliesData.map(function(item) { return item.total; });
+
+                var fail_orbit_chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Total Failures',
+                            data: datao,
+                            backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                            borderColor: 'rgba(0, 0, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+           });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var ctx2 = document.getElementById('avgDesignBarChart').getContext('2d');
+                var anomaliesDataD = {{ designlife_by_orbit|safe }};
+                var labelsD = anomaliesDataD.map(function(item) { return item.orbitcategory; });
+                var dataD = anomaliesDataD.map(function(item) { return item.avg_dl; });
+
+                var avg_desgin_chart = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsD,
+                        datasets: [{
+                            label: 'Average Design Life',
+                            data: dataD,
+                            backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                            borderColor: 'rgba(0, 0, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var ctxA = document.getElementById('avgAgeBarChart').getContext('2d');
+                var anomaliesDataA = {{ age_by_orbit|safe }};
+                var labelsA = anomaliesDataA.map(function(item) { return item.orbitcategory; });
+                var dataA = anomaliesDataA.map(function(item) { return item.avg_age; });
+
+                var avg_desgin_chart = new Chart(ctxA, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsA,
+                        datasets: [{
+                            label: 'Average Age',
+                            data: dataA,
+                            backgroundColor: 'rgba(13, 110, 253, 0.6)',
+                            borderColor: 'rgba(0, 0, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+{% include "./footer.html" %} 

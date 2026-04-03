@@ -1,0 +1,129 @@
+{% include "./header.html" %}
+{% include "./topnav.html" %}
+{% include "./leftnav.html" %}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Satellite Anomalies Data</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+        <li class="breadcrumb-item active">Anomaly Data</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            The data provided is collected from Seradata database for satellite anomalies cases.
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Satellites Data
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Spacecraft Name</th>
+                        <th scope="col">Bus Type</th>
+                        <th scope="col">Orbit</th>
+                        <th scope="col">Mission</th>
+                        <th scope="col">Launch Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for anomaly in satellite_anomaly %}
+                    <tr>
+                        <td>{{ anomaly.spacecraftname }}</td>
+                        <td>{{ anomaly.bustype }}</td>
+                        <td>{{ anomaly.orbitcategory }}</td>
+                        <td>{{ anomaly.missionprimary }}</td>
+                        <td>{{ anomaly.launchdate|date:"M. d, Y" }}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#detailModal{{ anomaly.sa_id }}">
+                                Details
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="detailModal{{ anomaly.sa_id }}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel{{ anomaly.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="detailModalLabel{{ anomaly.sa_id }}">Details :: {{ anomaly.spacecraftname }}</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Vehicle Long Name</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.vehiclelongname }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Age</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.age }} years</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Design Life</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.designlife }} years</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Bus Type</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.bustype }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Owner</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.spacecraftowner }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Manufacture</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.primemanufacturer }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Operator</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.spacecraftoperator }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Launch Date</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.launchdate }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Mass at Launch</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.massatlaunch }} Kg</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Orbit</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.orbitcategory }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Mission</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.missionprimary }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Failure Event</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.event }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Failure Event Date</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.eventdate|date:"M. d, Y" }}</div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4"><strong>Failure Event Remark</strong></div>
+                                          <div class="col-md-8 ms-auto">{{ anomaly.eventremarks }}</div>
+                                        </div>
+                                     </div> 
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% include "./footer.html" %} 
+            
